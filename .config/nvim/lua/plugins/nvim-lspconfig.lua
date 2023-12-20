@@ -33,7 +33,7 @@ local config = function()
 			},
 		},
 	})
-    -- python
+	-- python
 	lspconfig.pyright.setup({
 		capabilities = capabilities,
 		on_attach = on_attach,
@@ -49,17 +49,76 @@ local config = function()
 			},
 		},
 	})
+	-- bash
+	lspconfig.bashls.setup({
+		capabilities = capabilities,
+		on_attach = on_attach,
+		filetypes = { "sh", "aliasrc" },
+	})
+	-- docker
+	lspconfig.dockerls.setup({
+		capabilities = capabilities,
+		on_attach = on_attach,
+	})
+	-- json
+	lspconfig.jsonls.setup({
+		capabilities = capabilities,
+		on_attach = on_attach,
+		filetypes = { "json", "jsonc" },
+	})
+	-- go
+	lspconfig.gopls.setup({
+		capabilities = capabilities,
+		on_attach = on_attach,
+		cmd = { "gopls" },
+		filetypes = { "go", "gomod", "gowork", "gotmpl" },
+		rootdir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"),
+		settings = {
+			gopls = {
+				completeUnimported = true,
+				usePlaceholders = true,
+				analyses = {
+					unusedparams = true,
+				},
+			},
+		},
+	})
 
+	lspconfig.emmet_ls.setup({
+		capabilities = capabilities,
+		on_attach = on_attach,
+		filetypes = {
+			"javascript",
+			"css",
+			"html",
+		},
+	})
 	local luacheck = require("efmls-configs.linters.luacheck")
 	local stylua = require("efmls-configs.formatters.stylua")
-    local flake8 = require("efmls-configs.linters.flake8")
+	local flake8 = require("efmls-configs.linters.flake8")
 	local black = require("efmls-configs.formatters.black")
+	local prettier_d = require("efmls-configs.formatters.prettier_d")
+	local shellcheck = require("efmls-configs.linters.shellcheck")
+	local shfmt = require("efmls-configs.formatters.shfmt")
+	local hadolint = require("efmls-configs.linters.hadolint")
+	local eslint = require("efmls-configs.linters.eslint")
+	local fixjson = require("efmls-configs.formatters.fixjson")
+	local golangci_lint = require("efmls-configs.linters.golangci_lint")
+	local gofumpt = require("efmls-configs.formatters.gofumpt")
 
 	-- configure efm server
 	lspconfig.efm.setup({
 		filetypes = {
 			"lua",
-            "python",
+			"python",
+			"html",
+			"css",
+			"markdown",
+			"docker",
+			"sh",
+			"json",
+			"jsonc",
+			"go",
 		},
 		init_options = {
 			documentFormatting = true,
@@ -73,6 +132,15 @@ local config = function()
 			languages = {
 				lua = { luacheck, stylua },
 				python = { flake8, black },
+				json = { eslint, fixjson },
+				jsonc = { eslint, fixjson },
+				sh = { shellcheck, shfmt },
+				javascript = { eslint, prettier_d },
+				markdown = { prettier_d },
+				docker = { hadolint, prettier_d },
+				html = { prettier_d },
+				css = { prettier_d },
+				go = { golangci_lint, gofumpt },
 			},
 		},
 	})
@@ -86,7 +154,7 @@ return {
 		"windwp/nvim-autopairs",
 		"williamboman/mason.nvim",
 		"creativenull/efmls-configs-nvim",
-        "hrsh7th/nvim-cmp",
+		"hrsh7th/nvim-cmp",
 		"hrsh7th/cmp-buffer",
 		"hrsh7th/cmp-nvim-lsp",
 	},
