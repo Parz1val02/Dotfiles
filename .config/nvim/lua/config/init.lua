@@ -89,7 +89,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 	pattern = "*",
 	once = true,
 	callback = function(_)
-		if vim.fn.argc() == 0 then
+		if vim.fn.argc() == 0 or vim.fn.argc() == 1 then
 			vim.cmd("NvimTreeToggle")
 		end
 	end,
