@@ -54,7 +54,7 @@ require("telekasten").setup({
 
 	-- auto-set telekasten filetype: if false, the telekasten filetype will not be used
 	--                               and thus the telekasten syntax will not be loaded either
-	auto_set_filetype = false,
+	auto_set_filetype = true,
 
 	-- dir names for special notes (absolute path or subdir name)
 	dailies = home .. "/" .. "daily",
@@ -107,7 +107,7 @@ require("telekasten").setup({
 	insert_after_inserting = false,
 
 	-- tag notation: '#tag', ':tag:', 'yaml-bare'
-	tag_notation = "#tag",
+	tag_notation = "yaml-bare",
 
 	-- command palette theme: dropdown (window) or ivy (bottom panel)
 	command_palette_theme = "dropdown",
@@ -126,7 +126,7 @@ require("telekasten").setup({
 	-- - prefer_new_note: use `new_note` template
 	-- - smart: if day or week is detected in title, use daily / weekly templates (default)
 	-- - always_ask: always ask before creating a note
-	template_handling = "smart",
+	template_handling = "prefer_new_note",
 
 	-- path handling:
 	--   this applies to:
