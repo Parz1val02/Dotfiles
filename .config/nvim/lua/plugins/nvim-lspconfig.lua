@@ -83,7 +83,15 @@ local config = function()
 			},
 		},
 	})
-
+    -- C/C++
+	lspconfig.clangd.setup({
+		capabilities = capabilities,
+		on_attach = on_attach,
+		cmd = {
+			"clangd",
+			"--offset-encoding=utf-16",
+		},
+	})
 	lspconfig.emmet_ls.setup({
 		capabilities = capabilities,
 		on_attach = on_attach,
@@ -105,7 +113,8 @@ local config = function()
 	local fixjson = require("efmls-configs.formatters.fixjson")
 	local golangci_lint = require("efmls-configs.linters.golangci_lint")
 	local gofumpt = require("efmls-configs.formatters.gofumpt")
-
+    local cpplint = require("efmls-configs.linters.cpplint")
+	local clangformat = require("efmls-configs.formatters.clang_format")
 	-- configure efm server
 	lspconfig.efm.setup({
 		filetypes = {
@@ -113,12 +122,15 @@ local config = function()
 			"python",
 			"html",
 			"css",
+            "javascript",
 			"markdown",
 			"docker",
 			"sh",
 			"json",
 			"jsonc",
 			"go",
+            "c",
+            "cpp"
 		},
 		init_options = {
 			documentFormatting = true,
@@ -141,6 +153,8 @@ local config = function()
 				html = { prettier_d },
 				css = { prettier_d },
 				go = { golangci_lint, gofumpt },
+                c = { clangformat, cpplint },
+				cpp = { clangformat, cpplint },
 			},
 		},
 	})
